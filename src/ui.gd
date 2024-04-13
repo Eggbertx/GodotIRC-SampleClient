@@ -1,5 +1,7 @@
 extends Control
 
+signal server_item_selected(id: int)
+
 @onready var server_menu: PopupMenu = $VBoxContainer/PanelContainer/MenuBar/Server
 
 # Called when the node enters the scene tree for the first time.
@@ -12,9 +14,4 @@ func _process(delta:float):
 	pass
 
 func _on_server_id_pressed(id):
-	match id:
-		Menus.SERVER_EXIT:
-			print("Exiting")
-			get_tree().quit()
-		_:
-			print("unhandled server menu id %d" % id)
+	server_item_selected.emit(id)
