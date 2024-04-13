@@ -12,3 +12,4 @@ script = ExtResource("1_rmeif")
 [node name="IRCClientManager" parent="." instance=ExtResource("2_ylps7")]
 
 [connection signal="server_item_selected" from="UI" to="." method="_on_ui_server_item_selected"]
+[connection signal="unhandled_message_received" from="IRCClientManager" to="." method="_on_irc_client_manager_unhandled_message_received"]
