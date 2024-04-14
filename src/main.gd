@@ -18,5 +18,11 @@ func _on_ui_server_item_selected(id: int):
 		_:
 			print("unhandled server menu id %d" % id)
 
-func _on_irc_client_manager_unhandled_message_received(client, msg):
-	pass # print("%s <- %s" % [client.host, msg])
+
+func _on_ui_message_submitted(msg:String, server:String, channel:String):
+	print(msg)
+	if msg.begins_with("/"):
+		# user command
+		var cmd = msg.split(" ", true, 1)[0].substr(1).to_lower()
+		print(cmd)
+

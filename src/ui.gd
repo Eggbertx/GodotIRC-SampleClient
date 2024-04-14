@@ -1,6 +1,7 @@
 extends Control
 
 signal server_item_selected(id: int)
+signal message_submitted(msg:String, server:String, channel:String)
 
 @onready var server_menu: PopupMenu = $VBoxContainer/PanelContainer/MenuBar/Server
 @onready var server_tree: Tree = $VBoxContainer/HSplitContainer/ServerTree
@@ -28,6 +29,20 @@ func _get_server_item(host:String) -> TreeItem:
 		if child.get_text(0) == host:
 			return child
 	return null
+
+func get_active_log():
+	var current_item := server_tree.get_selected()
+	if current_item == null:
+		return null
+	var item_text = current_item.get_text(0)
+
+	if current_item.get_parent() == tree_root:
+		# server selected
+		return [item_text, item_text]
+
+	# channel selected
+	return [current_item.get_parent().get_text(0), item_text]
+	
 
 func _on_server_id_pressed(id:int):
 	server_item_selected.emit(id)
@@ -82,7 +97,7 @@ func _on_irc_client_manager_server_message_received(client, msg_type, msg):
 	add_log_msg(client.host, client.host, msg)
 
 
-
 func _on_line_edit_text_submitted(msg:String):
-	
-	print("submitted text: %s" % msg)
+	var active = get_active_log()
+	if active != null:
+		message_submitted.emit(msg, active[0], active[1])
