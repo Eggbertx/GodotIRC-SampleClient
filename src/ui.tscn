@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://sphdr8a42kqv"]
+[gd_scene load_steps=3 format=3 uid="uid://sphdr8a42kqv"]
 
 [ext_resource type="Script" path="res://src/ui.gd" id="1_cm1fu"]
+[ext_resource type="FontFile" uid="uid://b8herejkfee3u" path="res://assets/fonts/NotoSansMono-Regular.ttf" id="2_o1n27"]
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -44,10 +45,12 @@ size_flags_horizontal = 3
 [node name="ChatText" type="TextEdit" parent="VBoxContainer/HSplitContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("2_o1n27")
 editable = false
 deselect_on_focus_loss_enabled = false
 virtual_keyboard_enabled = false
 middle_mouse_paste_enabled = false
+wrap_mode = 1
 
 [node name="LineEdit" type="LineEdit" parent="VBoxContainer/HSplitContainer/VBoxContainer"]
 layout_mode = 2

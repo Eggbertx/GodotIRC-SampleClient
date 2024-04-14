@@ -39,11 +39,14 @@ func create_log_if_not_exists(host: String, channel: String):
 	if not server_logs[host].has(channel):
 		server_logs[host][channel] = []
 
+func add_log_msg(host: String, channel: String, msg: String):
+	create_log_if_not_exists(host, channel)
+	server_logs[host][channel].append(msg)
+
 func set_active_log(host: String, channel: String = host):
 	create_log_if_not_exists(host, channel)
 	var text =  "\n".join(server_logs[host][channel])
 	chat_text.text = text
-	print("log text: %s" % text)
 	
 
 func _on_irc_client_manager_client_connected(client:IRCClient):
@@ -71,4 +74,10 @@ func _on_server_tree_item_selected():
 
 func _on_irc_client_manager_unhandled_message_received(client, msg):
 	create_log_if_not_exists(client.host, client.host)
-	server_logs[client.host][client.host].append(msg)
+	# server_logs[client.host][client.host].append(msg)
+
+
+func _on_irc_client_manager_server_message_received(client, msg_type, msg):
+	create_log_if_not_exists(client.host, client.host)
+	add_log_msg(client.host, client.host, msg)
+
