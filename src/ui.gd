@@ -1,4 +1,4 @@
-extends Control
+class_name UI extends Control
 
 signal server_item_selected(id: int)
 signal message_submitted(msg:String, server:String, channel:String)
@@ -6,6 +6,7 @@ signal message_submitted(msg:String, server:String, channel:String)
 @onready var server_menu: PopupMenu = $VBoxContainer/PanelContainer/MenuBar/Server
 @onready var server_tree: Tree = $VBoxContainer/HSplitContainer/ServerTree
 @onready var chat_text: TextEdit = $VBoxContainer/HSplitContainer/VBoxContainer/ChatText
+@onready var accept_dialog: AcceptDialog = $AcceptDialog
 
 var tree_root: TreeItem = null
 
@@ -22,6 +23,9 @@ func _ready():
 func _process(delta:float):
 	pass
 
+func alert(msg:String):
+	accept_dialog.visible = true
+	accept_dialog.text = msg
 
 func _get_server_item(host:String) -> TreeItem:
 	var children := tree_root.get_children()
@@ -88,8 +92,10 @@ func _on_server_tree_item_selected():
 	set_active_log(selected_server, selected_channel)
 
 
-func _on_irc_client_manager_unhandled_message_received(client, msg):
+func _on_irc_client_manager_unhandled_message_received(client:IRCClient, msg:String):
 	create_log_if_not_exists(client.host, client.host)
+	add_log_msg(client.host, client.host, msg)
+	print("unhandled msg: %s" % msg)
 
 
 func _on_irc_client_manager_server_message_received(client, msg_type, msg):

@@ -1,6 +1,7 @@
 extends Node
 
 @onready var irc_mgr:IRCClientManager  = $IRCClientManager
+@onready var ui: UI = $UI
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -20,9 +21,15 @@ func _on_ui_server_item_selected(id: int):
 
 
 func _on_ui_message_submitted(msg:String, server:String, channel:String):
-	print(msg)
+	var conn := irc_mgr.get_server_conn(server)
+	if conn == null:
+		ui.alert("Unable to find server connection")
+
 	if msg.begins_with("/"):
 		# user command
-		var cmd = msg.split(" ", true, 1)[0].substr(1).to_lower()
-		print(cmd)
-
+		var cmd_args = msg.split(" ", true, 1)
+		match cmd_args[0].substr(1).to_lower():
+			"join":
+				print(cmd_args)
+				if cmd_args.size() == 2:
+					conn.join_channel(cmd_args[1])

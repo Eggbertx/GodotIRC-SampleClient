@@ -52,10 +52,21 @@ virtual_keyboard_enabled = false
 middle_mouse_paste_enabled = false
 wrap_mode = 1
 
-[node name="LineEdit" type="LineEdit" parent="VBoxContainer/HSplitContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HSplitContainer/VBoxContainer"]
 layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Username"
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 8
+
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+initial_position = 2
 
 [connection signal="id_pressed" from="VBoxContainer/PanelContainer/MenuBar/Server" to="." method="_on_server_id_pressed"]
 [connection signal="item_selected" from="VBoxContainer/HSplitContainer/ServerTree" to="." method="_on_server_tree_item_selected"]
-[connection signal="text_submitted" from="VBoxContainer/HSplitContainer/VBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
+[connection signal="text_submitted" from="VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
