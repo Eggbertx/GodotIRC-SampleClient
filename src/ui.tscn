@@ -58,3 +58,4 @@ size_flags_vertical = 8
 
 [connection signal="id_pressed" from="VBoxContainer/PanelContainer/MenuBar/Server" to="." method="_on_server_id_pressed"]
 [connection signal="item_selected" from="VBoxContainer/HSplitContainer/ServerTree" to="." method="_on_server_tree_item_selected"]
+[connection signal="text_submitted" from="VBoxContainer/HSplitContainer/VBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
