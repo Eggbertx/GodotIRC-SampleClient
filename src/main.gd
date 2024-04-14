@@ -19,4 +19,4 @@ func _on_ui_server_item_selected(id: int):
 			print("unhandled server menu id %d" % id)
 
 func _on_irc_client_manager_unhandled_message_received(client, msg):
-	print("%s <- %s" % [client.host, msg])
+	pass # print("%s <- %s" % [client.host, msg])
