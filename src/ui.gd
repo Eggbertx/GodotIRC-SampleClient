@@ -3,9 +3,9 @@ class_name UI extends Control
 signal server_item_selected(id: int)
 signal message_submitted(msg:String, server:String, channel:String)
 
-@onready var server_menu: PopupMenu = $VBoxContainer/PanelContainer/MenuBar/Server
-@onready var server_tree: Tree = $VBoxContainer/HSplitContainer/ServerTree
-@onready var chat_text: TextEdit = $VBoxContainer/HSplitContainer/VBoxContainer/ChatText
+@onready var server_menu: PopupMenu = $PanelContainer/VBoxContainer/PanelContainer/MenuBar/Server
+@onready var server_tree: Tree = $PanelContainer/VBoxContainer/HSplitContainer/ServerTree
+@onready var chat_text: TextEdit = $PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/ChatText
 @onready var accept_dialog: AcceptDialog = $AcceptDialog
 
 var tree_root: TreeItem = null
@@ -13,15 +13,11 @@ var tree_root: TreeItem = null
 # Dictionary -> Dictionary -> Array[String], host -> channel -> messages
 var server_logs: Dictionary = {}
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Menus.set_menu_items(server_menu, Menus.server_items)
 	tree_root = server_tree.create_item()
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta:float):
-	pass
 
 func alert(msg:String):
 	accept_dialog.visible = true
@@ -99,7 +95,7 @@ func _on_irc_client_manager_unhandled_message_received(client:IRCClient, msg:Str
 	print("unhandled msg: %s" % msg)
 
 
-func _on_irc_client_manager_server_message_received(client, msg_type, msg):
+func _on_irc_client_manager_server_message_received(client:IRCClient, _msg_type:String, msg:String):
 	create_log_if_not_exists(client.host, client.host)
 	add_log_msg(client.host, client.host, msg)
 

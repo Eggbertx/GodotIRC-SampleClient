@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://sphdr8a42kqv"]
+[gd_scene load_steps=4 format=3 uid="uid://sphdr8a42kqv"]
 
 [ext_resource type="Script" path="res://src/ui.gd" id="1_cm1fu"]
 [ext_resource type="FontFile" uid="uid://b8herejkfee3u" path="res://assets/fonts/NotoSansMono-Regular.ttf" id="2_o1n27"]
+[ext_resource type="PackedScene" uid="uid://bllstkg5nfiiv" path="res://src/server_dialog.tscn" id="3_66ic6"]
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -12,7 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_cm1fu")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,29 +21,32 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
 layout_mode = 2
 
-[node name="MenuBar" type="MenuBar" parent="VBoxContainer/PanelContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Server" type="PopupMenu" parent="VBoxContainer/PanelContainer/MenuBar"]
+[node name="MenuBar" type="MenuBar" parent="PanelContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
 
-[node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer"]
+[node name="Server" type="PopupMenu" parent="PanelContainer/VBoxContainer/PanelContainer/MenuBar"]
+
+[node name="HSplitContainer" type="HSplitContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 split_offset = 160
 
-[node name="ServerTree" type="Tree" parent="VBoxContainer/HSplitContainer"]
+[node name="ServerTree" type="Tree" parent="PanelContainer/VBoxContainer/HSplitContainer"]
 layout_mode = 2
 columns = 2
 hide_root = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HSplitContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ChatText" type="TextEdit" parent="VBoxContainer/HSplitContainer/VBoxContainer"]
+[node name="ChatText" type="TextEdit" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("2_o1n27")
@@ -52,14 +56,14 @@ virtual_keyboard_enabled = false
 middle_mouse_paste_enabled = false
 wrap_mode = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HSplitContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="NameLabel" type="Label" parent="VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer"]
+[node name="NameLabel" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Username"
 
-[node name="LineEdit" type="LineEdit" parent="VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
@@ -67,6 +71,9 @@ size_flags_vertical = 8
 [node name="AcceptDialog" type="AcceptDialog" parent="."]
 initial_position = 2
 
-[connection signal="id_pressed" from="VBoxContainer/PanelContainer/MenuBar/Server" to="." method="_on_server_id_pressed"]
-[connection signal="item_selected" from="VBoxContainer/HSplitContainer/ServerTree" to="." method="_on_server_tree_item_selected"]
-[connection signal="text_submitted" from="VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
+[node name="ServerDialog" parent="." instance=ExtResource("3_66ic6")]
+visible = false
+
+[connection signal="id_pressed" from="PanelContainer/VBoxContainer/PanelContainer/MenuBar/Server" to="." method="_on_server_id_pressed"]
+[connection signal="item_selected" from="PanelContainer/VBoxContainer/HSplitContainer/ServerTree" to="." method="_on_server_tree_item_selected"]
+[connection signal="text_submitted" from="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]

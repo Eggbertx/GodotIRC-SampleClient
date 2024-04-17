@@ -4,8 +4,8 @@ class_name Menus
 
 static var server_items: Array[Dictionary] = [
 	{"type": "text", "text": "Server List..."},
+	{"type": "text", "text": "Connect to server..."},
 	{"type": "separator"},
-	{"type": "text", "text": "Connect to server (test)"},
 	{"type": "text", "text": "Disconnect from server"},
 	{"type": "separator"},
 	{"type": "text", "text": "Exit"}
@@ -13,8 +13,8 @@ static var server_items: Array[Dictionary] = [
 
 enum {
 	SERVER_LIST,
+	SERVER_CONNECT,
 	SERVER_SEPARATOR1,
-	SERVER_CONNECT_TEST,
 	SERVER_DISCONNECT,
 	SERVER_SEPARATOR2,
 	SERVER_EXIT
