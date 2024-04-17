@@ -107,3 +107,6 @@ func _on_line_edit_text_submitted(msg:String):
 	var active = get_active_log()
 	if active != null:
 		message_submitted.emit(msg, active[0], active[1])
+
+func _on_irc_client_manager_privmsg_received(client, channel):
+	create_log_if_not_exists(client.host, channel)
