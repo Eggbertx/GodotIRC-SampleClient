@@ -67,6 +67,7 @@ func set_active_log(host: String, channel: String = host):
 	create_log_if_not_exists(host, channel)
 	var text =  "\n".join(server_logs[host][channel])
 	chat_text.text = text
+	chat_text.scroll_vertical = server_logs[host][channel].size() * 14
 
 
 func _on_irc_client_manager_client_connected(client:IRCClient):
