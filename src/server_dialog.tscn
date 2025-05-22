@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bllstkg5nfiiv"]
 
-[ext_resource type="Script" path="res://src/server_dialog.gd" id="1_qo100"]
+[ext_resource type="Script" uid="uid://tvckiucho0iy" path="res://src/server_dialog.gd" id="1_qo100"]
 
 [node name="ServerDialog" type="ConfirmationDialog"]
 title = "Connect to server"

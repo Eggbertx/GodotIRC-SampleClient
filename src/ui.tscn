@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://sphdr8a42kqv"]
 
-[ext_resource type="Script" path="res://src/ui.gd" id="1_cm1fu"]
+[ext_resource type="Script" uid="uid://cfmdl6tkhxfei" path="res://src/ui.gd" id="1_cm1fu"]
 [ext_resource type="FontFile" uid="uid://b8herejkfee3u" path="res://assets/fonts/NotoSansMono-Regular.ttf" id="2_o1n27"]
 [ext_resource type="PackedScene" uid="uid://bllstkg5nfiiv" path="res://src/server_dialog.tscn" id="3_66ic6"]
 
@@ -72,7 +72,6 @@ size_flags_vertical = 8
 initial_position = 2
 
 [node name="ServerDialog" parent="." instance=ExtResource("3_66ic6")]
-visible = false
 
 [connection signal="id_pressed" from="PanelContainer/VBoxContainer/PanelContainer/MenuBar/Server" to="." method="_on_server_id_pressed"]
 [connection signal="item_selected" from="PanelContainer/VBoxContainer/HSplitContainer/ServerTree" to="." method="_on_server_tree_item_selected"]

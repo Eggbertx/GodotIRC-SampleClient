@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bxuoyf6sugs0m"]
 
 [ext_resource type="PackedScene" uid="uid://sphdr8a42kqv" path="res://src/ui.tscn" id="1_0hj7g"]
-[ext_resource type="Script" path="res://src/main.gd" id="1_rmeif"]
+[ext_resource type="Script" uid="uid://33kyt2hwpvc0" path="res://src/main.gd" id="1_rmeif"]
 [ext_resource type="PackedScene" uid="uid://db3d7h4fu55tk" path="res://addons/GodotIRC/client/irc_client_manager.tscn" id="2_ylps7"]
 
 [node name="Main" type="Node"]
