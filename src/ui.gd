@@ -2,11 +2,13 @@ class_name UI extends Control
 
 signal server_item_selected(id: int)
 signal message_submitted(msg:String, server:String, channel:String)
+signal server_connection_added(server:ServerOptions)
 
 @onready var server_menu: PopupMenu = $PanelContainer/VBoxContainer/PanelContainer/MenuBar/Server
 @onready var server_tree: Tree = $PanelContainer/VBoxContainer/HSplitContainer/ServerTree
 @onready var chat_text: TextEdit = $PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/ChatText
 @onready var accept_dialog: AcceptDialog = $AcceptDialog
+@onready var server_dialog: ServerDialog = $ServerDialog
 
 var tree_root: TreeItem = null
 
@@ -19,9 +21,10 @@ func _ready():
 	Menus.set_menu_items(server_menu, Menus.server_items)
 	tree_root = server_tree.create_item()
 
-func alert(msg:String):
+func alert(msg:String, title:String = "Alert"):
+	accept_dialog.dialog_text = msg
+	accept_dialog.title = title
 	accept_dialog.visible = true
-	accept_dialog.text = msg
 
 func _get_server_item(host:String) -> TreeItem:
 	var children := tree_root.get_children()
@@ -107,3 +110,8 @@ func _on_line_edit_text_submitted(msg:String):
 
 func _on_irc_client_manager_privmsg_received(client, channel):
 	create_log_if_not_exists(client.host, channel)
+
+
+func _on_server_dialog_confirmed() -> void:
+	
+	server_connection_added.emit(server_dialog.get_options())

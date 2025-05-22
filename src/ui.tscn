@@ -76,3 +76,4 @@ initial_position = 2
 [connection signal="id_pressed" from="PanelContainer/VBoxContainer/PanelContainer/MenuBar/Server" to="." method="_on_server_id_pressed"]
 [connection signal="item_selected" from="PanelContainer/VBoxContainer/HSplitContainer/ServerTree" to="." method="_on_server_tree_item_selected"]
 [connection signal="text_submitted" from="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
+[connection signal="confirmed" from="ServerDialog" to="." method="_on_server_dialog_confirmed"]

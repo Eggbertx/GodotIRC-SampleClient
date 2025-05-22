@@ -1,6 +1,6 @@
-extends ConfirmationDialog
+class_name ServerDialog extends ConfirmationDialog
 
-@onready var _channel_list = $PanelContainer/VBoxContainer/TabContainer/Channels/ChannelList
+@onready var _channel_list: VBoxContainer = $PanelContainer/VBoxContainer/TabContainer/Channels/ChannelList
 @onready var _server_host_edit: LineEdit = $PanelContainer/VBoxContainer/GridContainer/ServerLineEdit
 @onready var _port_spinner: SpinBox = $PanelContainer/VBoxContainer/GridContainer/PortSpinBox
 @onready var _ssl_checkbox: CheckBox = $PanelContainer/VBoxContainer/GridContainer/SSLCheckBox
@@ -16,7 +16,7 @@ var server_host: String:
 
 var port: int:
 	get:
-		return _port_spinner.value
+		return int(_port_spinner.value)
 	set(v):
 		_port_spinner.value = v
 
@@ -44,29 +44,28 @@ var real_name: String:
 	set(v):
 		_realname_edit.text = v
 
-enum DialogMode {
-	NEW_SERVER,
-	EDIT_SERVER
-}
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func show_dialog(server: ServerOptions = null):
+	if server == null:
+		reset_form()
+		title = "New Server Connection"
+	else:
+		fill_values(server)
+		title = "Edit Server Connection"
+	show()
+	grab_focus()
 
-func show_dialog(mode: DialogMode):
-	match mode:
-		DialogMode.NEW_SERVER:
-			title = "New server connection"
-		DialogMode.EDIT_SERVER:
-			title = "Edit server connection"
-
-func fill_values(opts:IRCOptions, profile:IRCProfile):
-	pass
+func fill_values(_opts:ServerOptions):
+	server_host = _opts.host
+	port = _opts.port
+	use_ssl = _opts.ssl
+	nick = _opts.nick
+	username = _opts.username
+	real_name = _opts.real_name
+	_channel_list.clear_children()
+	for channel in _opts.channels:
+		_add_channel_row(channel)
 
 func _add_channel_row(channel:String = ""):
 	var hbox := HBoxContainer.new()
@@ -78,7 +77,7 @@ func _add_channel_row(channel:String = ""):
 	channel_line.size_flags_horizontal = Control.SIZE_EXPAND|Control.SIZE_FILL
 	hbox.add_child(channel_line)
 	var remove_btn := Button.new()
-	remove_btn.text = "-"
+	remove_btn.text = "Remove"
 	hbox.add_child(remove_btn)
 	var remove_channel = func():
 		_channel_list.remove_child(hbox)
@@ -91,14 +90,29 @@ func reset_form():
 	nick = ""
 	username = ""
 	real_name = ""
+	var channel_children := _channel_list.get_children()
+	for child in channel_children:
+		_channel_list.remove_child(child)
+		child.queue_free()
 
-func get_channels():
+func get_channels() -> Array[String]:
 	var channels: Array[String] = []
 	var channel_children = _channel_list.find_children("*", "LineEdit", true, false)
 	for child in channel_children:
 		if child.text != "":
 			channels.append(child.text)
 	return channels
+
+func get_options() -> ServerOptions:
+	var opts := ServerOptions.new()
+	opts.host = server_host
+	opts.port = port
+	opts.ssl = use_ssl
+	opts.nick = nick
+	opts.username = username
+	opts.real_name = real_name
+	opts.channels = get_channels()
+	return opts
 
 func _on_add_channel_button_button_up():
 	_add_channel_row()

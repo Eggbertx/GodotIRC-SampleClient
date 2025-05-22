@@ -55,9 +55,11 @@ layout_mode = 2
 [node name="TabContainer" type="TabContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+current_tab = 0
 
 [node name="Channels" type="VBoxContainer" parent="PanelContainer/VBoxContainer/TabContainer"]
 layout_mode = 2
+metadata/_tab_index = 0
 
 [node name="ChannelList" type="VBoxContainer" parent="PanelContainer/VBoxContainer/TabContainer/Channels"]
 layout_mode = 2
@@ -77,6 +79,7 @@ text = "Add channel"
 visible = false
 layout_mode = 2
 columns = 2
+metadata/_tab_index = 1
 
 [node name="NickLabel" type="Label" parent="PanelContainer/VBoxContainer/TabContainer/User"]
 layout_mode = 2
