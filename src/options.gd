@@ -6,6 +6,11 @@ var nick := ""
 var username := ""
 var real_name := ""
 
+var maximized:bool = ProjectSettings.get_setting("display/window/size/mode", Window.MODE_MAXIMIZED) == Window.MODE_MAXIMIZED
+var window_width:int = ProjectSettings.get_setting("display/window/size/viewport_width", 800)
+var window_height:int = ProjectSettings.get_setting("display/window/size/viewport_height", 600)
+
+
 var config := ConfigFile.new()
 
 const OPTIONS_FILE := "user://options.ini"
@@ -14,6 +19,15 @@ func read_options() -> Error:
 	var err := config.load(OPTIONS_FILE)
 	if err != OK:
 		return err
+	maximized = config.get_value("global", "maximized", true)
+	if maximized:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
+	else:
+		window_width = config.get_value("global", "window_width", 800)
+		window_height = config.get_value("global", "window_height", 600)
+		DisplayServer.window_set_size(Vector2i(window_width, window_height))
+
+
 	nick = config.get_value("global", "nick", "")
 	username = config.get_value("global", "username", "")
 	real_name = config.get_value("global", "real_name", "")
@@ -39,6 +53,17 @@ func read_options() -> Error:
 	return OK
 
 func write_options() -> Error:
+	if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_MAXIMIZED:
+		maximized = true
+	else:
+		maximized = false
+		var window_size := DisplayServer.window_get_size()
+		window_width = window_size.x
+		window_height = window_size.y
+	config.set_value("global", "maximized", maximized)
+	config.set_value("global", "window_width", window_width)
+	config.set_value("global", "window_height", window_height)
+
 	config.set_value("global", "nick", nick)
 	config.set_value("global", "username", username)
 	config.set_value("global", "real_name", real_name)
