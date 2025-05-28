@@ -2,9 +2,9 @@ class_name IRCOptions extends Node
 
 var servers: Array[ServerOptions] = []
 
-var nick := ""
-var username := ""
-var real_name := ""
+var default_nick := ""
+var default_username := ""
+var default_real_name := ""
 
 var maximized:bool = ProjectSettings.get_setting("display/window/size/mode", Window.MODE_MAXIMIZED) == Window.MODE_MAXIMIZED
 var window_width:int = ProjectSettings.get_setting("display/window/size/viewport_width", 800)
@@ -28,11 +28,11 @@ func read_options() -> Error:
 		DisplayServer.window_set_size(Vector2i(window_width, window_height))
 
 
-	nick = config.get_value("global", "nick", "")
-	username = config.get_value("global", "username", "")
-	real_name = config.get_value("global", "real_name", "")
-	if real_name == "":
-		real_name = nick
+	default_nick = config.get_value("global", "nick", "")
+	default_username = config.get_value("global", "username", "")
+	default_real_name = config.get_value("global", "real_name", "")
+	if default_real_name == "":
+		default_real_name = default_nick
 
 	servers = []
 	var sections = config.get_sections()
@@ -42,9 +42,9 @@ func read_options() -> Error:
 			server.host = config.get_value(section, "host", "")
 			server.port = config.get_value(section, "port", ServerOptions.DEFAULT_PORT)
 			server.ssl = config.get_value(section, "ssl", false)
-			server.nick = config.get_value(section, "nick", nick)
-			server.username = config.get_value(section, "username", username)
-			server.real_name = config.get_value(section, "real_name", real_name)
+			server.nick = config.get_value(section, "nick", default_nick)
+			server.username = config.get_value(section, "username", default_username)
+			server.real_name = config.get_value(section, "real_name", default_real_name)
 			server.server_password = config.get_value(section, "server_password", "")
 			server.nickserv_password = config.get_value(section, "nickserv_password", "")
 			server.channels = config.get_value(section, "channels", [])
@@ -64,9 +64,9 @@ func write_options() -> Error:
 	config.set_value("global", "window_width", window_width)
 	config.set_value("global", "window_height", window_height)
 
-	config.set_value("global", "nick", nick)
-	config.set_value("global", "username", username)
-	config.set_value("global", "real_name", real_name)
+	config.set_value("global", "nick", default_nick)
+	config.set_value("global", "username", default_username)
+	config.set_value("global", "real_name", default_real_name)
 
 	for i in range(servers.size()):
 		var server := servers[i]

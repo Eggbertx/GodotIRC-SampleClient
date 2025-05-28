@@ -113,5 +113,15 @@ func _on_irc_client_manager_privmsg_received(client, channel):
 
 
 func _on_server_dialog_confirmed() -> void:
-	
 	server_connection_added.emit(server_dialog.get_options())
+
+
+func _on_irc_client_manager_channel_joined(client: IRCClient, channel: String) -> void:
+	print("Channel joined: %s on %s" % [channel, client.host])
+	var server_item := _get_server_item(client.host)
+	if server_item == null:
+		server_item = server_tree.create_item(tree_root)
+		server_item.set_text(0, client.host)
+	var channel_item := server_tree.create_item(server_item)
+	channel_item.set_text(0, channel)
+	server_item.add_child(channel_item)

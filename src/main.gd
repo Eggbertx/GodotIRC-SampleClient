@@ -51,7 +51,8 @@ func _on_ui_message_submitted(msg:String, server:String, _channel:String):
 			"join":
 				print(cmd_args)
 				if cmd_args.size() == 2:
-					conn.join_channel(cmd_args[1])
+					irc_mgr.join_channel(server, cmd_args[1])
+					# conn.join_channel(cmd_args[1])
 			_:
 				ui.alert("Unknown command %s" % cmd_args[0], "Error")
 

@@ -14,6 +14,7 @@ script = ExtResource("1_rmeif")
 [connection signal="message_submitted" from="UI" to="." method="_on_ui_message_submitted"]
 [connection signal="server_connection_added" from="UI" to="." method="_on_ui_server_connection_added"]
 [connection signal="server_item_selected" from="UI" to="." method="_on_ui_server_item_selected"]
+[connection signal="channel_joined" from="IRCClientManager" to="UI" method="_on_irc_client_manager_channel_joined"]
 [connection signal="client_connected" from="IRCClientManager" to="UI" method="_on_irc_client_manager_client_connected"]
 [connection signal="privmsg_received" from="IRCClientManager" to="UI" method="_on_irc_client_manager_privmsg_received"]
 [connection signal="server_message_received" from="IRCClientManager" to="UI" method="_on_irc_client_manager_server_message_received"]
